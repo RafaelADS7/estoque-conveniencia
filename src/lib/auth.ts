@@ -16,7 +16,8 @@ export const authOptions: NextAuthOptions = {
         await dbConnect();
         
         // 1. Buscar usuário
-        const user = await User.findOne({ email: credentials?.email });
+        // O .select("+password") força o retorno do campo oculto
+        const user = await User.findOne({ email: credentials?.email }).select("+password");
         if (!user) throw new Error("Usuário não encontrado");
 
         // 2. Verificar senha
