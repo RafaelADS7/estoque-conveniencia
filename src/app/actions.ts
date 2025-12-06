@@ -34,14 +34,22 @@ export async function addProduct(formData: FormData) {
   const session = await getServerSession(authOptions);
   if (!session) return { error: "Não autorizado" };
 
-  const nome = formData.get("nome");
-  const preco = formData.get("preco");
+  const name = formData.get("name") as string;
+  const category = formData.get("category") as string;
+  const price = formData.get("price") as string;
+  const stock = formData.get("stock") as string;
+  const description = formData.get("description") as string;
+  const image = formData.get("image") as string;
 
   await dbConnect();
   await Product.create({
-    nome,
-    preco: Number(preco),
-    usuarioId: (session.user as any).id
+    name,
+    category,
+    price: Number(price),
+    stock: Number(stock),
+    description,
+    image,
+    usuarioId: (session.user as any).id,
   });
 
   revalidatePath("/dashboard"); // Atualiza a lista instantaneamente
@@ -62,11 +70,22 @@ export async function updateProduct(formData: FormData) {
   if (!session) return { error: "Não autorizado" };
 
   const id = formData.get("id");
-  const nome = formData.get("nome");
-  const preco = formData.get("preco");
+  const name = formData.get("name");
+  const category = formData.get("category");
+  const price = formData.get("price");
+  const stock = formData.get("stock");
+  const description = formData.get("description");
+  const image = formData.get("image");
 
   await dbConnect();
-  await Product.findByIdAndUpdate(id, { nome, preco: Number(preco) });
+  await Product.findByIdAndUpdate(id, {
+    name,
+    category,
+    price: Number(price),
+    stock: Number(stock),
+    description,
+    image,
+  });
 
   revalidatePath("/dashboard");
   return { success: true };

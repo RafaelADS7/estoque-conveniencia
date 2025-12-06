@@ -24,7 +24,7 @@ export default async function Dashboard() {
         <div className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Package className="h-8 w-8 text-blue-600" />
-            <h1 className="text-3xl font-bold text-gray-900">Olá, {session.user?.name}</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Olá, Bem-vindo ao seu gerencaidor de estoque, {session.user?.name}</h1>
           </div>
           <SignOutButton />
         </div>
