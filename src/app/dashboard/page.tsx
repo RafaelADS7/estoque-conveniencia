@@ -9,6 +9,18 @@ import AddProductForm from "@/components/AddProductForm";
 import { Package } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
+// --- METADATA DINÂMICO ---
+export async function generateMetadata() {
+  const session = await getServerSession(authOptions);
+
+  return {
+    title: session?.user?.name
+      ? `Dashboard de ${session.user.name}`
+      : "Dashboard - Estoque",
+    description: "Gerenciador de estoque da conveniência",
+  };
+}
+
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login");
@@ -24,7 +36,9 @@ export default async function Dashboard() {
         <div className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Package className="h-8 w-8 text-blue-600" />
-            <h1 className="text-3xl font-bold text-gray-900">Olá, Bem-vindo ao seu gerencaidor de estoque, {session.user?.name}</h1>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Olá, Bem-vindo ao seu gerenciador de estoque {session.user?.name}
+            </h1>
           </div>
           <SignOutButton />
         </div>
